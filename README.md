@@ -7,7 +7,7 @@ A polished Streamlit portfolio for showcasing AI-generated photography, AI video
 - Home / Portfolio / Services / Process / About / Contact pages
 - Image/video gallery with All work, Images, and Videos filters
 - Service and workflow sections
-- Contact inquiry draft validation and text download (no email delivery)
+- Contact inquiry validation, prefilled email drafts, and text download
 - Clean CSS theme
 - Shared Archivo / Space Grotesk typography, accessible green controls, and responsive gallery rows
 - Requirements file
@@ -31,11 +31,11 @@ streamlit run app.py
 
 ## Before publishing
 1. Replace the placeholder project descriptions with real work.
-2. Add your real contact links and email.
+2. Verify your contact email in `portfolio_content.py`; add professional profile links when available.
 3. Add project images/videos directly under `portfolio_uploads/`.
 4. Add case-study evidence: brief, role, tools, process, deliverables and results.
 5. Remove any claim that cannot be supported by your actual work.
-6. Connect the contact form to an email or form backend.
+6. Test the email link with your email app. Visitors review and send their inquiry there; automatic server-side delivery is not configured.
 7. Add a custom domain if desired.
 
 ## Suggested project case-study fields

@@ -24,6 +24,9 @@ def render_home(assets: Path) -> None:
     .home-intro { padding: 34px 0 18px; }
     .home-eyebrow { color: #296b35; font-size: .76rem; font-weight: 700;
         letter-spacing: .13em; text-transform: uppercase; }
+    .home-brand { display: flex; flex-wrap: wrap; align-items: baseline;
+        gap: .35rem .65rem; line-height: 1.6; }
+    .home-brand span { white-space: nowrap; }
     .home-intro h1 { font-size: clamp(2.7rem, 4.8vw, 4.8rem);
         line-height: 1.05; letter-spacing: -.055em; margin: 22px 0; }
     .home-intro h1 span { color: #296b35; }
@@ -55,6 +58,15 @@ def render_home(assets: Path) -> None:
     .home-closing p { color: #4c5e52; max-width: 650px; line-height: 1.7; }
     @media(max-width: 640px) {
         .home-intro { padding-top: 12px; }
+        .home-brand { flex-direction: column; gap: .2rem; letter-spacing: .08em; }
+        .home-brand .home-brand-divider { display: none; }
+        .st-key-home .home-intro h1 {
+            font-size: clamp(2rem, 8.5vw, 3rem); line-height: 1.15;
+            letter-spacing: -.035em; margin: 18px 0;
+            overflow-wrap: normal; word-break: normal;
+        }
+        .st-key-home-actions { flex-direction: column; align-items: stretch; }
+        .st-key-home-actions .stButton, .st-key-home-actions button { width: 100%; }
         .home-card { min-height: auto; }
         .home-section { padding-top: 30px; }
         .home-closing { padding: 24px; }
@@ -67,13 +79,13 @@ def render_home(assets: Path) -> None:
         with left:
             st.markdown("""
             <div class="home-intro">
-                <div class="home-eyebrow">Rashid Ali / AI visual studio</div>
+                <div class="home-eyebrow home-brand"><span>Rashid Ali</span><span class="home-brand-divider" aria-hidden="true">/</span><span>AI Visual Studio</span></div>
                 <h1>Creative vision.<br><span>Memorable visuals.</span></h1>
                 <p>I bring ideas to life through AI photography, video and creative direction.
                 Thoughtfully crafted for brands, products and the stories they tell.</p>
             </div>
             """, unsafe_allow_html=True)
-            with st.container(horizontal=True):
+            with st.container(horizontal=True, key="home-actions"):
                 st.button("Explore my work", key="home-work", on_click=navigate, args=("Portfolio",))
                 st.button("Start a project", key="home-contact", on_click=navigate, args=("Contact",))
             st.caption("Available for freelance projects")

@@ -81,7 +81,8 @@ hr { border-color: var(--line); }
 .footer { border-top: 1px solid var(--line); margin-top: 64px; padding: 24px 0;
     color: var(--muted); font-size: .85rem; font-weight: 500; }
 @media (max-width: 768px) {
-    .block-container { padding: 1.5rem 1rem 3rem; }
+    /* Leave room for Streamlit's fixed header and mobile navigation toggle. */
+    .block-container { padding: 4.5rem 1rem 3rem; }
     .gallery-heading { padding-top: 8px; }
     .card { padding: 22px; }
     .section { padding-top: 28px; }

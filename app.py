@@ -12,7 +12,7 @@ from home import render_home
 assets_dir = Path(__file__).parent / "portfolio_uploads"
 
 st.set_page_config(
-    page_title="RASHID ALI PORTFOLIO | AI Visual Studio",
+    page_title="NEXT GEN Graphics Studio | Rashid Ali Soomro",
     page_icon="✨",
     layout="wide",
     initial_sidebar_state="auto",
@@ -86,8 +86,8 @@ WORKFLOW = [
 
 # ---------- Sidebar ----------
 with st.sidebar:
-    st.markdown("## 🦉 RASHID ALI")
-    st.caption("AI VISUAL STUDIO")
+    st.markdown("## NEXT GEN Graphics Studio")
+    st.caption("BY RASHID ALI SOOMRO")
     page = st.radio("Navigate", ["Home","Portfolio","Services","Process","About","Contact"], key="navigation")
     st.divider()
     st.caption("Available for freelance AI visual projects")
@@ -102,7 +102,7 @@ if page == "Home":
 elif page == "Portfolio":
     st.markdown("""
     <div class="gallery-heading">
-        <div class="kicker">THE PORTFOLIO / RASHID ALI</div>
+        <div class="kicker">NEXT GEN Graphics Studio / Portfolio</div>
         <h1>Vision into visuals.</h1>
         <p class="lead">A collection of AI photography, visual experiments and motion.
         Explore the details. Press play on the stories.</p>
@@ -263,6 +263,6 @@ elif page == "Contact":
         )
 
 st.markdown(
-    f'<div class="footer">© 2026 Rashid Ali Soomro · AI Visual Studio<br><a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a></div>',
+    f'<div class="footer">© 2026 NEXT GEN Graphics Studio · Rashid Ali Soomro<br><a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a></div>',
     unsafe_allow_html=True
 )

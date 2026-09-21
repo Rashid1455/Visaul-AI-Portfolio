@@ -1,4 +1,4 @@
-# AI Visual Studio — Streamlit Portfolio
+# NEXT GEN Graphics Studio — Streamlit Portfolio
 
 A polished Streamlit portfolio for showcasing AI-generated photography, AI video, creative direction, social ads, and post-production.
 

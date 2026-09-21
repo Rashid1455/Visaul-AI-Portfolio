@@ -2,6 +2,7 @@ import streamlit as st
 from pathlib import Path
 import re
 from urllib.parse import quote
+from datetime import date
 
 from portfolio_content import CONTACT_EMAIL, media_title
 
@@ -22,51 +23,6 @@ st.set_page_config(
 st.html(Path(__file__).with_name("styles.css"))
 
 # ---------- Data ----------
-PROJECTS = [
-    {
-        "title":"Luxury Product Campaign",
-        "type":"AI Image Generation",
-        "description":"High-end product visuals with cinematic lighting, controlled composition and advertising-ready art direction.",
-        "tools":"Generative AI · Photoshop · Compositing",
-        "result":"Hero imagery, social creatives and campaign variations",
-    },
-    {
-        "title":"Cinematic Fashion Story",
-        "type":"AI Image + Video",
-        "description":"A cohesive fashion concept developed from still-image direction into short-form motion sequences.",
-        "tools":"Generative AI · Image-to-Video · Editing",
-        "result":"Vertical social sequence with consistent visual language",
-    },
-    {
-        "title":"AI Brand Content System",
-        "type":"AI Creative System",
-        "description":"Reusable prompts, visual rules and content variations for a consistent brand presence.",
-        "tools":"Prompt Design · Art Direction · Photoshop",
-        "result":"Repeatable creative workflow for multiple campaign assets",
-    },
-    {
-        "title":"Social Ad Creative Lab",
-        "type":"AI Advertising",
-        "description":"Scroll-stopping concepts designed for paid social, including hooks, visual variants and CTA compositions.",
-        "tools":"Generative AI · Graphic Design · Social Media",
-        "result":"Multiple ad concepts optimized for different placements",
-    },
-    {
-        "title":"Concept-to-Video Storyboard",
-        "type":"AI Video",
-        "description":"From creative brief to storyboard, keyframes, motion prompts and final short-form sequence.",
-        "tools":"Storyboard · Image-to-Video · Editing",
-        "result":"Production-ready visual direction for short video",
-    },
-    {
-        "title":"Editorial Visual Series",
-        "type":"AI Photography",
-        "description":"Editorial-style portraits and scenes with a consistent lens, lighting and color direction.",
-        "tools":"AI Photography · Retouching · Color",
-        "result":"Cohesive series for web, editorial and social use",
-    },
-]
-
 SERVICES = [
     ("AI Image Generation","Campaign visuals, product scenes, portraits, editorial concepts and creative variations."),
     ("AI Video Generation","Short-form ads, cinematic clips, image-to-video sequences and social motion content."),
@@ -222,21 +178,25 @@ elif page == "Contact":
     st.write("Tell me what you want to create. Prepare your inquiry below, then open it in your email app to send it.")
     st.markdown(f"Prefer to write directly? [{CONTACT_EMAIL}](mailto:{CONTACT_EMAIL})")
 
+    saved_inquiry = st.session_state.get("inquiry_fields", {})
+    project_types = ["AI Images", "AI Video", "AI Campaign", "Social Ads", "Product Visuals", "Other"]
+    budget_ranges = ["Not decided", "Under $100", "$100–$300", "$300–$750", "$750+"]
     with st.form("contact"):
-        name = st.text_input("Name")
-        email = st.text_input("Email")
+        name = st.text_input("Name", value=saved_inquiry.get("name", ""), key="contact_name")
+        email = st.text_input("Email", value=saved_inquiry.get("email", ""), key="contact_email")
         project = st.selectbox(
             "Project type",
-            ["AI Images", "AI Video", "AI Campaign", "Social Ads", "Product Visuals", "Other"]
+            project_types, index=project_types.index(saved_inquiry.get("project", project_types[0])), key="contact_project"
         )
         budget = st.selectbox(
             "Budget range",
-            ["Not decided", "Under $100", "$100–$300", "$300–$750", "$750+"]
+            budget_ranges, index=budget_ranges.index(saved_inquiry.get("budget", budget_ranges[0])), key="contact_budget"
         )
-        brief = st.text_area("Tell me about the project")
+        brief = st.text_area("Tell me about the project", value=saved_inquiry.get("brief", ""), key="contact_brief")
         submitted = st.form_submit_button("Prepare inquiry")
 
     if submitted:
+        st.session_state["inquiry_fields"] = dict(name=name, email=email, project=project, budget=budget, brief=brief)
         st.session_state.pop("inquiry_draft", None)
         name, email, brief = name.strip(), email.strip(), brief.strip()
         if not name or not email or not brief:
@@ -263,6 +223,6 @@ elif page == "Contact":
         )
 
 st.markdown(
-    f'<div class="footer">© 2026 NEXT GEN Graphics Studio · Rashid Ali Soomro<br><a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a></div>',
+    f'<div class="footer">© {date.today().year} NEXT GEN Graphics Studio · Rashid Ali Soomro<br><a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a></div>',
     unsafe_allow_html=True
 )

@@ -33,6 +33,19 @@ class StorageTests(unittest.TestCase):
 
 
 class AppTests(unittest.TestCase):
+    def test_home_navigation_and_gallery_filters(self):
+        app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "app.py"), default_timeout=15).run()
+        app.button(key="home-inquiry").click().run()
+        self.assertEqual(app.sidebar.radio[0].value, "Contact")
+        self.assertFalse(app.exception)
+        app.sidebar.radio[0].set_value("Portfolio").run()
+        image_count, video_count = len(app.get("image")), len(app.get("video"))
+        for choice, images, videos in (("Images", image_count, 0), ("Videos", 0, video_count), ("All work", image_count, video_count)):
+            app.get("button_group")[0].set_value(choice).run()
+            self.assertFalse(app.exception)
+            self.assertEqual(len(app.get("image")), images)
+            self.assertEqual(len(app.get("video")), videos)
+
     def test_every_page_renders(self):
         app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "app.py")).run()
         self.assertFalse(app.exception)
@@ -57,6 +70,11 @@ class AppTests(unittest.TestCase):
         self.assertIn("Campaign visuals", app.session_state["inquiry_draft"])
         app.run()
         self.assertIn("Campaign visuals", app.session_state["inquiry_draft"])
+        app.sidebar.radio[0].set_value("Home").run()
+        app.sidebar.radio[0].set_value("Contact").run()
+        self.assertEqual(app.text_input[0].value, "Client")
+        self.assertEqual(app.text_input[1].value, "client@example.com")
+        self.assertEqual(app.text_area[0].value, "Campaign visuals")
         app.text_input[1].set_value("invalid")
         app.button[0].click().run()
         self.assertNotIn("inquiry_draft", app.session_state)

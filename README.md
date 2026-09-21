@@ -30,7 +30,7 @@ streamlit run app.py
 ```
 
 ## Before publishing
-1. Replace the placeholder project descriptions with real work.
+1. Review gallery titles in `portfolio_content.py` and add descriptions for your real projects.
 2. Verify your contact email in `portfolio_content.py`; add professional profile links when available.
 3. Add project images/videos directly under `portfolio_uploads/`.
 4. Add case-study evidence: brief, role, tools, process, deliverables and results.

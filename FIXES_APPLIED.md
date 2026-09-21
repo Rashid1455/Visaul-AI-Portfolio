@@ -1,5 +1,14 @@
 # Fixes Applied
 
+## Project review — September 21, 2026
+
+- Corrected gallery titles for the updated `me.png` portrait and `me12.png` double exposure.
+- Restored submitted contact fields when returning to Contact, keeping the form consistent with its prepared draft.
+- Added stable contact widget keys and regression coverage for draft restoration, Home inquiry navigation, and gallery filters.
+- Removed unused placeholder project data and made the footer year automatic.
+- All six regression tests pass; all 11 local image files pass Pillow integrity verification.
+- Browser/mobile visual checks and video playback verification remain outstanding. No changes were pushed during this review.
+
 ## Contact and collection details
 
 - Added Rashidhussain473888@gmail.com to Contact, the sidebar, and the footer.

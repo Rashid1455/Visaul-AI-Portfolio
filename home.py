@@ -53,10 +53,13 @@ def render_home(assets: Path) -> None:
     .home-note { border-top: 1px solid #d2ddd3; border-bottom: 1px solid #d2ddd3;
         padding: 19px 0; margin: 24px 0 4px; display: flex; flex-wrap: wrap;
         gap: 12px 30px; font-size: .85rem; color: #4c5e52; }
-    .home-closing { margin-top: 44px; padding: 32px; border-radius: 22px;
+    .st-key-home-closing { margin-top: 44px; padding: 32px; border-radius: 22px;
         background: #e9f2e6; border: 1px solid #d2ddd3; }
     .home-closing h2 { font-size: clamp(1.8rem, 3vw, 2.6rem); margin: 8px 0 14px; }
     .home-closing p { color: #4c5e52; max-width: 650px; line-height: 1.7; }
+    .st-key-home-inquiry { max-width: 100%; }
+    .st-key-home-inquiry button { max-width: 100%; height: auto; }
+    .st-key-home-inquiry button p { white-space: normal; overflow-wrap: break-word; line-height: 1.5; }
     @media(max-width: 640px) {
         .home-intro { padding-top: 12px; }
         .home-brand { flex-direction: column; gap: .2rem; letter-spacing: .08em; }
@@ -70,7 +73,8 @@ def render_home(assets: Path) -> None:
         .st-key-home-actions .stButton, .st-key-home-actions button { width: 100%; }
         .home-card { min-height: auto; }
         .home-section { padding-top: 30px; }
-        .home-closing { padding: 24px; }
+        .st-key-home-closing { padding: 24px; }
+        .st-key-home-inquiry, .st-key-home-inquiry button { width: 100%; }
     }
     </style>
     """, unsafe_allow_html=True)
@@ -123,7 +127,8 @@ def render_home(assets: Path) -> None:
             with column:
                 st.markdown(f'<div class="home-card"><span class="number">{number} /</span><h3>{title}</h3><p>{description}</p></div>', unsafe_allow_html=True)
 
-        st.markdown("""<div class="home-closing"><div class="home-eyebrow">From brief to final frame</div>
-        <h2>Have something in mind?</h2><p>Share the idea, the audience and what you want to create.
-        Let’s give your next project a visual direction.</p></div>""", unsafe_allow_html=True)
-        st.button("Prepare a project inquiry", key="home-inquiry", on_click=navigate, args=("Contact",))
+        with st.container(key="home-closing"):
+            st.markdown("""<div class="home-closing"><div class="home-eyebrow">From brief to final frame</div>
+            <h2>Have something in mind?</h2><p>Share the idea, the audience and what you want to create.
+            Let’s give your next project a visual direction.</p></div>""", unsafe_allow_html=True)
+            st.button("Prepare a project inquiry", key="home-inquiry", on_click=navigate, args=("Contact",))

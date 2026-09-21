@@ -26,7 +26,8 @@ def render_home(assets: Path) -> None:
         letter-spacing: .13em; text-transform: uppercase; }
     .home-brand { display: flex; flex-wrap: wrap; align-items: baseline;
         gap: .35rem .65rem; line-height: 1.6; }
-    .home-brand span { white-space: nowrap; }
+    .home-brand span { white-space: normal; overflow-wrap: break-word; max-width: 100%; }
+    .home-brand .studio-name { text-transform: none; letter-spacing: .025em; }
     .home-intro h1 { font-size: clamp(2.7rem, 4.8vw, 4.8rem);
         line-height: 1.05; letter-spacing: -.055em; margin: 22px 0; }
     .home-intro h1 span { color: #296b35; }
@@ -79,7 +80,7 @@ def render_home(assets: Path) -> None:
         with left:
             st.markdown("""
             <div class="home-intro">
-                <div class="home-eyebrow home-brand"><span>Rashid Ali</span><span class="home-brand-divider" aria-hidden="true">/</span><span>AI Visual Studio</span></div>
+                <div class="home-eyebrow home-brand"><span>Rashid Ali</span><span class="home-brand-divider" aria-hidden="true">/</span><span class="studio-name">NEXT GEN Graphics Studio</span></div>
                 <h1>Creative vision.<br><span>Memorable visuals.</span></h1>
                 <p>I bring ideas to life through AI photography, video and creative direction.
                 Thoughtfully crafted for brands, products and the stories they tell.</p>

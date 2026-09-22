@@ -7,6 +7,7 @@ from datetime import date
 from portfolio_content import CONTACT_EMAIL, media_title
 
 from home import render_home
+from service_cart import add_service, render_cart
 
 
 # Folder where portfolio images/videos are stored.
@@ -44,7 +45,8 @@ WORKFLOW = [
 with st.sidebar:
     st.markdown("## NEXT GEN Graphics Studio")
     st.caption("BY RASHID ALI SOOMRO")
-    page = st.radio("Navigate", ["Home","Portfolio","Services","Process","About","Contact"], key="navigation")
+    page = st.radio("Navigate", ["Home","Portfolio","Services","Cart","Process","About","Contact"], key="navigation")
+    st.caption(f"Service cart: {len(st.session_state.get('service_cart', []))} selected")
     st.divider()
     st.caption("Available for freelance AI visual projects")
     st.markdown(f"[Email me](mailto:{CONTACT_EMAIL})")
@@ -110,6 +112,9 @@ elif page == "Portfolio":
                 elif view == "Videos":
                     st.info("New films are coming soon.")
 
+elif page == "Cart":
+    render_cart()
+
 elif page == "Services":
     st.title("Services")
     st.write("End-to-end AI visual production for commercial and digital content.")
@@ -118,10 +123,12 @@ elif page == "Services":
         cols = st.columns(2)
         for col, (title, desc) in zip(cols, SERVICES[i:i + 2]):
             with col:
-                st.markdown(
-                    f'<div class="card"><h2>{title}</h2><p class="meta">{desc}</p></div>',
-                    unsafe_allow_html=True
-                )
+                with st.container(border=True):
+                    st.subheader(title)
+                    st.write(desc)
+                    selected = title in st.session_state.get("service_cart", [])
+                    st.button("Added to cart" if selected else "Add to cart", key=f"add-{title}",
+                              disabled=selected, on_click=add_service, args=(title,))
                 st.write("")
 
     st.markdown('<div class="section"><h2>Typical deliverables</h2></div>', unsafe_allow_html=True)
@@ -177,6 +184,9 @@ elif page == "Contact":
     st.title("Start a project")
     st.write("Tell me what you want to create. Prepare your inquiry below, then open it in your email app to send it.")
     st.markdown(f"Prefer to write directly? [{CONTACT_EMAIL}](mailto:{CONTACT_EMAIL})")
+    selected_services = st.session_state.get("service_cart", [])
+    if selected_services:
+        st.info("Selected services: " + ", ".join(selected_services))
 
     saved_inquiry = st.session_state.get("inquiry_fields", {})
     project_types = ["AI Images", "AI Video", "AI Campaign", "Social Ads", "Product Visuals", "Other"]
@@ -206,7 +216,7 @@ elif page == "Contact":
         else:
             st.session_state["inquiry_draft"] = (
                 f"Name: {name}\nEmail: {email}\nProject type: {project}\n"
-                f"Budget: {budget}\n\nProject brief:\n{brief}\n"
+                f"Budget: {budget}\nSelected services: {', '.join(selected_services) or 'Not selected'}\n\nProject brief:\n{brief}\n"
             )
 
     if "inquiry_draft" in st.session_state:

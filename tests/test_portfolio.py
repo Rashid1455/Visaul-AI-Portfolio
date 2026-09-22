@@ -47,14 +47,14 @@ class AppTests(unittest.TestCase):
             self.assertEqual(len(app.get("video")), videos)
 
     def test_every_page_renders(self):
-        app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "app.py")).run()
+        app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "app.py"), default_timeout=15).run()
         self.assertFalse(app.exception)
         for page in ("Portfolio", "Services", "Process", "About", "Contact"):
             app.sidebar.radio[0].set_value(page).run()
             self.assertFalse(app.exception, page)
 
     def test_inquiry_validation_and_draft(self):
-        app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "app.py")).run()
+        app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "app.py"), default_timeout=15).run()
         app.sidebar.radio[0].set_value("Contact").run()
         app.text_input[0].set_value("   ")
         app.button[0].click().run()

@@ -7,7 +7,7 @@ from datetime import date
 from portfolio_content import CONTACT_EMAIL, media_title
 
 from home import render_home
-from service_cart import add_service, render_cart
+from service_cart import add_service, render_cart, select_work
 
 
 # Folder where portfolio images/videos are stored.
@@ -41,12 +41,22 @@ WORKFLOW = [
     ("05","Deliver","Platform-ready exports, source files where agreed, and organized handoff."),
 ]
 
+# Image links select only existing files inside the portfolio library.
+requested_work = st.query_params.get("select_work")
+if requested_work:
+    available = {p.name: p for p in assets_dir.glob("*") if p.is_file() and p.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp", ".mp4", ".mov", ".webm"}}
+    if requested_work in available:
+        file = available[requested_work]
+        kind = "Video" if file.suffix.lower() in {".mp4", ".mov", ".webm"} else "Image"
+        select_work(file.name, media_title(file, 0, kind), kind)
+    del st.query_params["select_work"]
+
 # ---------- Sidebar ----------
 with st.sidebar:
     st.markdown("## NEXT GEN Graphics Studio")
     st.caption("BY RASHID ALI SOOMRO")
     page = st.radio("Navigate", ["Home","Portfolio","Services","Cart","Process","About","Contact"], key="navigation")
-    st.caption(f"Service cart: {len(st.session_state.get('service_cart', []))} selected")
+    st.caption(f"Cart: {len(st.session_state.get('service_cart', [])) + len(st.session_state.get('work_cart', {}))} selected")
     st.divider()
     st.caption("Available for freelance AI visual projects")
     st.markdown(f"[Email me](mailto:{CONTACT_EMAIL})")
@@ -92,7 +102,9 @@ elif page == "Portfolio":
                         for i, (column, file_path) in enumerate(zip(columns, image_files[start:start + 2]), start=start):
                             with column:
                                 with st.container(border=True):
-                                    st.image(str(file_path), width="stretch", caption=media_title(file_path, i, "Visual"))
+                                    title = media_title(file_path, i, "Visual")
+                                    st.image(str(file_path), width="stretch", caption=title, link=f"?select_work={quote(file_path.name, safe='')}")
+                                    st.button("Select image · Add to cart", key=f"select-{file_path.name}", on_click=select_work, args=(file_path.name, title, "Image"))
                 elif view == "Images":
                     st.info("New images are coming soon.")
 
@@ -109,6 +121,8 @@ elif page == "Portfolio":
                                 with st.container(border=True):
                                     st.video(str(file_path))
                                     st.caption(media_title(file_path, i, "Motion"))
+                                    st.caption("Price and standard limits: awaiting pricing")
+                                    st.button("Select video · Add to cart", key=f"select-{file_path.name}", on_click=select_work, args=(file_path.name, media_title(file_path, i, "Motion"), "Video"))
                 elif view == "Videos":
                     st.info("New films are coming soon.")
 
@@ -185,6 +199,9 @@ elif page == "Contact":
     st.write("Tell me what you want to create. Prepare your inquiry below, then open it in your email app to send it.")
     st.markdown(f"Prefer to write directly? [{CONTACT_EMAIL}](mailto:{CONTACT_EMAIL})")
     selected_services = st.session_state.get("service_cart", [])
+    selected_works = st.session_state.get("work_cart", {})
+    if selected_works:
+        st.info("Selected work: " + ", ".join(work["title"] for work in selected_works.values()))
     if selected_services:
         st.info("Selected services: " + ", ".join(selected_services))
 
@@ -217,6 +234,8 @@ elif page == "Contact":
             st.session_state["inquiry_draft"] = (
                 f"Name: {name}\nEmail: {email}\nProject type: {project}\n"
                 f"Budget: {budget}\nSelected services: {', '.join(selected_services) or 'Not selected'}\n\nProject brief:\n{brief}\n"
+                f"\nSelected work: {', '.join(selected_works) or 'Not selected'}\n"
+                f"Preferred payment method (subject to confirmation): {st.session_state.get('inquiry_payment_preference', '') or 'Discuss with studio'}\n"
             )
 
     if "inquiry_draft" in st.session_state:

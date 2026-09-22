@@ -1,13 +1,16 @@
 import streamlit as st
 from pathlib import Path
 import re
+import inspect
 from urllib.parse import quote
 from datetime import date
 
 from portfolio_content import CONTACT_EMAIL, media_title
 
 from home import render_home
-from service_cart import add_service, render_cart, select_work
+from portfolio_cart import add_service, render_cart, select_work
+
+IMAGE_LINK_SUPPORTED = "link" in inspect.signature(st.image).parameters
 
 
 # Folder where portfolio images/videos are stored.
@@ -103,7 +106,10 @@ elif page == "Portfolio":
                             with column:
                                 with st.container(border=True):
                                     title = media_title(file_path, i, "Visual")
-                                    st.image(str(file_path), width="stretch", caption=title, link=f"?select_work={quote(file_path.name, safe='')}")
+                                    image_options = {}
+                                    if IMAGE_LINK_SUPPORTED:
+                                        image_options["link"] = f"?select_work={quote(file_path.name, safe='')}"
+                                    st.image(str(file_path), width="stretch", caption=title, **image_options)
                                     st.button("Select image · Add to cart", key=f"select-{file_path.name}", on_click=select_work, args=(file_path.name, title, "Image"))
                 elif view == "Images":
                     st.info("New images are coming soon.")

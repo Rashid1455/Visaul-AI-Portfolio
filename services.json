@@ -1,0 +1,138 @@
+{
+  "currency": "PKR",
+  "pricing_note": "Indicative estimates only; final scope and price require studio confirmation.",
+  "services": {
+    "ai-images": {
+      "title": "AI Image Generation",
+      "description": "Campaign visuals, product scenes, portraits, editorial concepts and creative variations.",
+      "kind": "image",
+      "options": [
+        "Campaign imagery",
+        "Editorial portraits",
+        "Creative concepts"
+      ],
+      "dimensions": [
+        "1024x1024",
+        "1080x1920",
+        "1920x1080",
+        "Custom"
+      ],
+      "unit_price": 1000,
+      "pricing_unit": "deliverable",
+      "samples": [
+        "attention.png",
+        "design changes what people see.png"
+      ]
+    },
+    "ai-videos": {
+      "title": "AI Video Generation",
+      "description": "Short-form ads, cinematic clips, image-to-video sequences and social motion content.",
+      "kind": "video",
+      "options": [
+        "Social video",
+        "Product video",
+        "Image-to-video"
+      ],
+      "dimensions": [
+        "1024x1024",
+        "1080x1920",
+        "1920x1080",
+        "Custom"
+      ],
+      "unit_price": 500,
+      "pricing_unit": "second",
+      "samples": [
+        "AI-Video.mp4",
+        "Cubify digital.mp4"
+      ]
+    },
+    "creative-direction": {
+      "title": "AI Creative Direction",
+      "description": "Concept development, moodboards, shot lists, prompt systems and visual consistency.",
+      "kind": "image",
+      "options": [
+        "Moodboard",
+        "Storyboard",
+        "Visual direction"
+      ],
+      "dimensions": [
+        "1024x1024",
+        "1080x1920",
+        "1920x1080",
+        "Custom"
+      ],
+      "unit_price": null,
+      "pricing_unit": "deliverable",
+      "samples": [
+        "attention.png",
+        "design changes what people see.png"
+      ]
+    },
+    "product-photography": {
+      "title": "AI Product Photography",
+      "description": "Studio-style product scenes, lifestyle compositions and commercial hero images.",
+      "kind": "image",
+      "options": [
+        "Studio-style images",
+        "Lifestyle images",
+        "Product hero imagery"
+      ],
+      "dimensions": [
+        "1024x1024",
+        "1080x1920",
+        "1920x1080",
+        "Custom"
+      ],
+      "unit_price": 1000,
+      "pricing_unit": "deliverable",
+      "samples": [
+        "attention.png",
+        "design changes what people see.png"
+      ]
+    },
+    "social-creatives": {
+      "title": "Social Media Creatives",
+      "description": "Instagram, TikTok, LinkedIn and paid-social visual assets in platform-ready formats.",
+      "kind": "image",
+      "options": [
+        "Single post",
+        "Carousel",
+        "Ad variations"
+      ],
+      "dimensions": [
+        "1024x1024",
+        "1080x1920",
+        "1920x1080",
+        "Custom"
+      ],
+      "unit_price": 1000,
+      "pricing_unit": "deliverable",
+      "samples": [
+        "attention.png",
+        "design changes what people see.png"
+      ]
+    },
+    "post-production": {
+      "title": "Post-Production",
+      "description": "Photoshop cleanup, compositing, retouching, color refinement and final delivery.",
+      "kind": "image",
+      "options": [
+        "Retouching",
+        "Compositing",
+        "Color refinement"
+      ],
+      "dimensions": [
+        "1024x1024",
+        "1080x1920",
+        "1920x1080",
+        "Custom"
+      ],
+      "unit_price": null,
+      "pricing_unit": "deliverable",
+      "samples": [
+        "new look.jpg",
+        "Rashid style picture.png"
+      ]
+    }
+  }
+}

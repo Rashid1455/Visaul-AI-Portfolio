@@ -9,6 +9,10 @@
 6. Add secrets only if your final contact form/API integration needs them.
 
 ## Production checklist
+- [ ] Review the indicative PKR rates and service samples in `services.json`
+- [ ] Deploy `service_details.py`, `service_catalog.py`, `services.json`, and `orders.py` together
+- [ ] Configure private persistent order storage and a separate backup destination; local Cloud disk and local SQLite alone do not satisfy durability
+- [ ] Test the service URL, live estimate, review, and JSON receipt flow
 - [ ] Replace placeholder content
 - [ ] Compress portfolio images
 - [ ] Test mobile layout

@@ -8,6 +8,8 @@ from datetime import date
 from portfolio_content import CONTACT_EMAIL, media_title
 
 from home import render_home
+from service_details import open_service, render_service_details, sync_service_url, clear_service_url
+from service_catalog import load_catalog
 from portfolio_cart import add_service, render_cart, select_work
 
 IMAGE_LINK_SUPPORTED = "link" in inspect.signature(st.image).parameters
@@ -27,14 +29,7 @@ st.set_page_config(
 st.html(Path(__file__).with_name("styles.css"))
 
 # ---------- Data ----------
-SERVICES = [
-    ("AI Image Generation","Campaign visuals, product scenes, portraits, editorial concepts and creative variations."),
-    ("AI Video Generation","Short-form ads, cinematic clips, image-to-video sequences and social motion content."),
-    ("AI Creative Direction","Concept development, moodboards, shot lists, prompt systems and visual consistency."),
-    ("AI Product Photography","Studio-style product scenes, lifestyle compositions and commercial hero images."),
-    ("Social Media Creatives","Instagram, TikTok, LinkedIn and paid-social visual assets in platform-ready formats."),
-    ("Post-Production","Photoshop cleanup, compositing, retouching, color refinement and final delivery."),
-]
+SERVICES = [(s["title"], s["description"]) for s in load_catalog()["services"].values()]
 
 WORKFLOW = [
     ("01","Brief","Goals, audience, references, deliverables and usage requirements."),
@@ -55,10 +50,11 @@ if requested_work:
     del st.query_params["select_work"]
 
 # ---------- Sidebar ----------
+sync_service_url()
 with st.sidebar:
     st.markdown("## NEXT GEN Graphics Studio")
     st.caption("BY RASHID ALI SOOMRO")
-    page = st.radio("Navigate", ["Home","Portfolio","Services","Cart","Process","About","Contact"], key="navigation")
+    page = st.radio("Navigate", ["Home","Portfolio","Services","Service details","Cart","Process","About","Contact"], key="navigation", on_change=clear_service_url)
     st.caption(f"Cart: {len(st.session_state.get('service_cart', [])) + len(st.session_state.get('work_cart', {}))} selected")
     st.divider()
     st.caption("Available for freelance AI visual projects")
@@ -135,6 +131,9 @@ elif page == "Portfolio":
 elif page == "Cart":
     render_cart()
 
+elif page == "Service details":
+    render_service_details(assets_dir)
+
 elif page == "Services":
     st.title("Services")
     st.write("End-to-end AI visual production for commercial and digital content.")
@@ -146,9 +145,8 @@ elif page == "Services":
                 with st.container(border=True):
                     st.subheader(title)
                     st.write(desc)
-                    selected = title in st.session_state.get("service_cart", [])
-                    st.button("Added to cart" if selected else "Add to cart", key=f"add-{title}",
-                              disabled=selected, on_click=add_service, args=(title,))
+                    st.button("View examples and options", key=f"details-{title}",
+                              on_click=open_service, args=(title,))
                 st.write("")
 
     st.markdown('<div class="section"><h2>Typical deliverables</h2></div>', unsafe_allow_html=True)
